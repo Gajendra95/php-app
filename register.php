@@ -74,10 +74,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Prepare an insert statement
         $systemusername = trim($_POST["username"]);
         $systempassword = trim($_POST["password"]);
+	// $systemrole = $_POST["user_type"] == 2 ? "faculty" : "student";
 //connecting to azure vm using ssh
         system( "sudo /usr/sbin/useradd -m -p `openssl passwd -1 $systempassword` $systemusername");
         $sql = "INSERT INTO users (username, password, roleid) VALUES (?, ?, ?)";
-         
+        //system( "sudo /usr/sbin/usermod -a -G $systemrole $systemusername") 
+
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "ssi", $param_username, $param_password, $param_user_type);

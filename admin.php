@@ -6,11 +6,9 @@
     require_once "config.php";
 
     // Fetch Users
-    $sql = "SELECT * from users";
+    $sql = "SELECT users.*, roles.rolename from users left join roles on roles.id = users.roleId";
     $result = mysqli_query($link, $sql);
-    // while ($row = mysqli_fetch_array($result)) {
-    //     echo $row["username"].'</br>';
-    // }
+    
 ?>
 
 <!DOCTYPE html>
@@ -54,10 +52,11 @@
         <table class="table">
             <thead>
             <tr>
-                <th>id</th>
-                <th>username</th>
+                <th>ID</th>
+                <th>Username</th>
                 <th>Activated<br><small>(Click to Activate/Deactivate)</small></th>
-                <th>Delete User</th>
+		<th>Rolename</th>
+		<th>Delete User</th>
             </tr>
             </thead>
             <tbody>
@@ -65,18 +64,18 @@
             <tr class="text-left">
                 <td><?php echo $row["id"] ?></td>
                 <td><?php echo $row["username"] ?></td>
-                <td>
+		<td>
                     <a href="activateuser.php?id=<?php echo $row["id"];?>&active=<?php echo $row["isActivated"];?>">
                         <span class="cr"><i class="cr-icon glyphicon <?php echo ($row["isActivated"] == 1 ? 'glyphicon-ok ' : 'glyphicon-remove');  ?>"></i></span> 
-                   </a>
+                    </a>
                 </td>
-                <td><a href="deleteuser.php?id=<?php echo $row["id"];?>" class="btn btn-danger" onclick="deleteWarning()">Delete</a></td>
-                <td>
-                
-                </td>
+		
+                <td><?php echo $row["rolename"] ?></td>
+		<td><a href="deleteuser.php?id=<?php echo $row["id"];?>" class="btn btn-danger" onclick="deleteWarning()">Delete</a></td>
             </tr>
             <?php } ?>
-            </tbody>
+		
+	    </tbody>
         </table>
 
         </div>
